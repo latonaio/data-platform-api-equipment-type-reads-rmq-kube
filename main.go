@@ -29,7 +29,7 @@ func main() {
 	}
 	defer rmq.Stop()
 
-	caller := dpfm_api_caller.NewDPFMAPICaller(conf, rmq, db)
+	caller := dpfm_api_caller.NewDPFMAPICaller(conf, rmq, db, l)
 
 	for msg := range iter {
 		start := time.Now()

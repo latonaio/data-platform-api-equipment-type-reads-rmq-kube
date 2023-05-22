@@ -43,7 +43,7 @@ func ConvertToEquipmentTypeText(rows *sql.Rows) (*[]EquipmentTypeText, error) {
 	i := 0
 	for rows.Next() {
 		i++
-		pm := &requests.EquipmentTypeText{}
+		pm := requests.EquipmentTypeText{}
 
 		err := rows.Scan(
 			&pm.EquipmentType,

@@ -5,7 +5,6 @@ import (
 	dpfm_api_input_reader "data-platform-api-equipment-type-reads-rmq-kube/DPFM_API_Input_Reader"
 	dpfm_api_output_formatter "data-platform-api-equipment-type-reads-rmq-kube/DPFM_API_Output_Formatter"
 	"fmt"
-	"strings"
 	"sync"
 
 	"github.com/latonaio/golang-logging-library-for-data-platform/logger"
@@ -55,7 +54,7 @@ func (c *DPFMAPICaller) EquipmentType(
 	errs *[]error,
 	log *logger.Logger,
 ) *[]dpfm_api_output_formatter.EquipmentType {
-	equipmentType := input.EquipmentType.EquipmentType
+	equipmentType := input.EquipmentType[0].EquipmentType
 
 	rows, err := c.db.Query(
 		`SELECT *
@@ -84,21 +83,20 @@ func (c *DPFMAPICaller) EquipmentTypeText(
 	errs *[]error,
 	log *logger.Logger,
 ) *[]dpfm_api_output_formatter.EquipmentTypeText {
-	var args []interface{}
-	equipmentType := input.EquipmentType.EquipmentType
-	equipmentTypeText := input.EquipmentType.EquipmentTypeText
-
-	cnt := 0
-	for _, v := range equipmentTypeText {
-		args = append(args, equipmentType, v.Language)
-		cnt++
+	where := "WHERE  (EquipmentType, Language) IN "
+	in := ""
+	for _, v := range input.EquipmentType {
+		for _, vv := range v.EquipmentTypeText {
+			in = fmt.Sprintf("%s ( '%s', '%s' ), ", in, v.EquipmentType, vv.Language)
+		}
 	}
 
-	repeat := strings.Repeat("(?,?),", cnt-1) + "(?,?)"
+	where = fmt.Sprintf("%s ( %s )", where, in[:len(in)-2])
+	c.l.Info(where)
 	rows, err := c.db.Query(
 		`SELECT *
 		FROM DataPlatformMastersAndTransactionsMysqlKube.data_platform_equipment_type_equipment_type_text_data
-		WHERE (EquipmentType, Language) IN ( `+repeat+` );`, args...,
+		` + where + ` ;`,
 	)
 	if err != nil {
 		*errs = append(*errs, err)
@@ -122,12 +120,19 @@ func (c *DPFMAPICaller) EquipmentTypeTexts(
 	errs *[]error,
 	log *logger.Logger,
 ) *[]dpfm_api_output_formatter.EquipmentTypeText {
-	where := fmt.Sprintf("WHERE EquipmentType = '%v'", input.EquipmentType.EquipmentType)
+	where := "WHERE  (EquipmentType, Language) IN "
+	in := ""
+	for _, v := range input.EquipmentType {
+		for _, vv := range v.EquipmentTypeText {
+			in = fmt.Sprintf("%s ( '%s', '%s' ), ", in, v.EquipmentType, vv.Language)
+		}
+	}
 
+	where = fmt.Sprintf("%s ( %s )", where, in[:len(in)-2])
 	rows, err := c.db.Query(
 		`SELECT *
 		FROM DataPlatformMastersAndTransactionsMysqlKube.data_platform_equipment_type_equipment_type_text_data
-		` + where + `;`,
+		` + where + ` ;`,
 	)
 	if err != nil {
 		*errs = append(*errs, err)

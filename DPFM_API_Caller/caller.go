@@ -17,16 +17,20 @@ type DPFMAPICaller struct {
 	conf *config.Conf
 	rmq  *rabbitmq.RabbitmqClient
 	db   *database.Mysql
+
+	l *logger.Logger
 }
 
 func NewDPFMAPICaller(
 	conf *config.Conf, rmq *rabbitmq.RabbitmqClient, db *database.Mysql,
+	l *logger.Logger,
 ) *DPFMAPICaller {
 	return &DPFMAPICaller{
 		ctx:  context.Background(),
 		conf: conf,
 		rmq:  rmq,
 		db:   db,
+		l:    l,
 	}
 }
 
