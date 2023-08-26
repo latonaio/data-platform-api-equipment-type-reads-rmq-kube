@@ -17,6 +17,9 @@ func ConvertToEquipmentType(rows *sql.Rows) (*[]EquipmentType, error) {
 
 		err := rows.Scan(
 			&pm.EquipmentType,
+			&pm.CreationDate,
+			&pm.LastChangeDate,
+			&pm.IsMarkedForDeletion,
 		)
 		if err != nil {
 			fmt.Printf("err = %+v \n", err)
@@ -25,7 +28,10 @@ func ConvertToEquipmentType(rows *sql.Rows) (*[]EquipmentType, error) {
 
 		data := pm
 		equipmentType = append(equipmentType, EquipmentType{
-			EquipmentType: data.EquipmentType,
+			EquipmentType: 			data.EquipmentType,
+			CreationDate:			data.CreationDate,
+			LastChangeDate:			data.LastChangeDate,
+			IsMarkedForDeletion:	data.IsMarkedForDeletion,
 		})
 	}
 	if i == 0 {
@@ -49,6 +55,9 @@ func ConvertToEquipmentTypeText(rows *sql.Rows) (*[]EquipmentTypeText, error) {
 			&pm.EquipmentType,
 			&pm.Language,
 			&pm.EquipmentTypeName,
+			&pm.CreationDate,
+			&pm.LastChangeDate,
+			&pm.IsMarkedForDeletion,
 		)
 		if err != nil {
 			fmt.Printf("err = %+v \n", err)
@@ -57,9 +66,12 @@ func ConvertToEquipmentTypeText(rows *sql.Rows) (*[]EquipmentTypeText, error) {
 
 		data := pm
 		equipmentTypeText = append(equipmentTypeText, EquipmentTypeText{
-			EquipmentType:     data.EquipmentType,
-			Language:          data.Language,
-			EquipmentTypeName: data.EquipmentTypeName,
+			EquipmentType:     		data.EquipmentType,
+			Language:          		data.Language,
+			EquipmentTypeName: 		data.EquipmentTypeName,
+			CreationDate:			data.CreationDate,
+			LastChangeDate:			data.LastChangeDate,
+			IsMarkedForDeletion:	data.IsMarkedForDeletion,
 		})
 	}
 	if i == 0 {

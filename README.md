@@ -1,14 +1,13 @@
 # data-platform-api-equipment-type-reads-rmq-kube
 
-data-platform-api-equipment-type-reads-rmq-kube は、周辺業務システム を データ連携基盤 と統合することを目的に、API で設備タイプデータを登録するマイクロサービスです。  
-https://xxx.xxx.io/api/API_EQUIPMENT_TYPE_SRV/creates/
+data-platform-api-equipment-type-reads-rmq-kube は、周辺業務システム を データ連携基盤 と統合することを目的に、API で設備タイプデータを取得するマイクロサービスです。  
+https://xxx.xxx.io/api/API_EQUIPMENT_TYPE_SRV/reads/
 
 ## 動作環境
 
 data-platform-api-equipment-type-reads-rmq-kube の動作環境は、次の通りです。  
 ・ OS: LinuxOS （必須）  
 ・ CPU: ARM/AMD/Intel（いずれか必須）  
-
 
 ## 本レポジトリ が 対応する API サービス
 data-platform-api-equipment-type-reads-rmq-kube が対応する APIサービス は、次のものです。
@@ -20,7 +19,6 @@ data-platform-api-equipment-type-reads-rmq-kube には、次の API をコール
 
 * A_EquipmentType（データ連携基盤 設備タイプ - 設備タイプデータ）
 * A_EquipmentTypeText（データ連携基盤 設備タイプ - 設備タイプテキストデータ）
- 
 
 ## API への 値入力条件 の 初期値
 data-platform-api-equipment-type-reads-rmq-kube において、API への値入力条件の初期値は、入力ファイルレイアウトの種別毎に、次の通りとなっています。  
@@ -59,7 +57,7 @@ accepter における データ種別 の指定に基づいて DPFM_API_Caller �
 caller.go の func() 毎 の 以下の箇所が、指定された API をコールするソースコードです。  
 
 ```
-func (c *DPFMAPICaller) AsyncEquipmentTypeReads(
+func (c *DPFMAPICaller) AsyncReads(
 	accepter []string,
 	input *dpfm_api_input_reader.SDC,
 	output *dpfm_api_output_formatter.SDC,
@@ -78,10 +76,9 @@ func (c *DPFMAPICaller) AsyncEquipmentTypeReads(
 
 ## Output  
 本マイクロサービスでは、[golang-logging-library-for-data-platform](https://github.com/latonaio/golang-logging-library-for-data-platform) により、以下のようなデータがJSON形式で出力されます。  
-以下の sample.json の例は 部品表(BOM) の ヘッダデータ が取得された結果の JSON の例です。  
-以下の項目のうち、"ProductionPlantBusinessPartner" ～ "HeaderIsMarkedForDeletion" は、/DPFM_API_Output_Formatter/type.go 内 の Type Header {} による出力結果です。"cursor" ～ "time"は、golang-logging-library による 定型フォーマットの出力結果です。  
+以下の sample.json の例は 設備タイプ の ヘッダデータ が取得された結果の JSON の例です。  
+以下の項目のうち、"EquipmentType" ～ "IsMarkedForDeletion" は、/DPFM_API_Output_Formatter/type.go 内 の Type Header {} による出力結果です。"cursor" ～ "time"は、golang-logging-library による 定型フォーマットの出力結果です。  
 
 ```
 XXX
 ```
-

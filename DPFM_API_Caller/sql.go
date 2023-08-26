@@ -31,10 +31,6 @@ func (c *DPFMAPICaller) readSqlProcess(
 			func() {
 				equipmentTypeText = c.EquipmentTypeText(mtx, input, output, errs, log)
 			}()
-		case "EquipmentTypeTexts":
-			func() {
-				equipmentTypeText = c.EquipmentTypeTexts(mtx, input, output, errs, log)
-			}()
 		default:
 		}
 	}
@@ -93,42 +89,6 @@ func (c *DPFMAPICaller) EquipmentTypeText(
 
 	where = fmt.Sprintf("%s ( %s )", where, in[:len(in)-2])
 	c.l.Info(where)
-	rows, err := c.db.Query(
-		`SELECT *
-		FROM DataPlatformMastersAndTransactionsMysqlKube.data_platform_equipment_type_equipment_type_text_data
-		` + where + ` ;`,
-	)
-	if err != nil {
-		*errs = append(*errs, err)
-		return nil
-	}
-	defer rows.Close()
-
-	data, err := dpfm_api_output_formatter.ConvertToEquipmentTypeText(rows)
-	if err != nil {
-		*errs = append(*errs, err)
-		return nil
-	}
-
-	return data
-}
-
-func (c *DPFMAPICaller) EquipmentTypeTexts(
-	mtx *sync.Mutex,
-	input *dpfm_api_input_reader.SDC,
-	output *dpfm_api_output_formatter.SDC,
-	errs *[]error,
-	log *logger.Logger,
-) *[]dpfm_api_output_formatter.EquipmentTypeText {
-	where := "WHERE  (EquipmentType, Language) IN "
-	in := ""
-	for _, v := range input.EquipmentType {
-		for _, vv := range v.EquipmentTypeText {
-			in = fmt.Sprintf("%s ( '%s', '%s' ), ", in, v.EquipmentType, vv.Language)
-		}
-	}
-
-	where = fmt.Sprintf("%s ( %s )", where, in[:len(in)-2])
 	rows, err := c.db.Query(
 		`SELECT *
 		FROM DataPlatformMastersAndTransactionsMysqlKube.data_platform_equipment_type_equipment_type_text_data

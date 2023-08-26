@@ -10,10 +10,16 @@
 	"api_type": "reads",
 	"EquipmentType": {
 		"EquipmentType": "ED000",
+		"CreationDate": "",
+		"LastChangeDate": "",
+		"IsMarkedForDeletion": null,
 		"EquipmentTypeText": [
 			{
 				"Language": "",
-				"EquipmentTypeName": ""
+				"EquipmentTypeName": "",
+				"CreationDate": "",
+				"LastChangeDate": "",
+				"IsMarkedForDeletion": null
 			}
 		]
 	},

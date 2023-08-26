@@ -70,11 +70,18 @@ type SDC struct {
 }
 
 type EquipmentType struct {
-	EquipmentType     string              `json:"EquipmentType"`
-	EquipmentTypeText []EquipmentTypeText `json:"EquipmentTypeText"`
+	EquipmentType     	string  			`json:"EquipmentType"`
+	CreationDate		string				`json:"CreationDate"`
+	LastChangeDate		string				`json:"LastChangeDate"`
+	IsMarkedForDeletion	*bool				`json:"IsMarkedForDeletion"`
+	EquipmentTypeText	[]EquipmentTypeText `json:"EquipmentTypeText"`
 }
 
 type EquipmentTypeText struct {
-	Language          string `json:"Language"`
-	EquipmentTypeName string `json:"EquipmentTypeName"`
+	EquipmentType       string `json:"EquipmentType"`
+	Language            string `json:"Language"`
+	EquipmentTypeName   string `json:"EquipmentTypeName"`
+	CreationDate		string `json:"CreationDate"`
+	LastChangeDate		string `json:"LastChangeDate"`
+	IsMarkedForDeletion	*bool  `json:"IsMarkedForDeletion"`
 }
